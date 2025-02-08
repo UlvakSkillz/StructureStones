@@ -46,6 +46,7 @@
       <HintPath>F:\SteamLibrary\steamapps\common\RUMBLE\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Il2Cppmscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Il2CppPhotonUnityNetworking, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="Il2CppRUMBLE.Plugins">
       <HintPath>F:\SteamLibrary\steamapps\common\RUMBLE\MelonLoader\Il2CppAssemblies\Il2CppRUMBLE.Plugins.dll</HintPath>
     </Reference>

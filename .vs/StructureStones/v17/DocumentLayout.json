@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\austi\\source\\repos\\StructureStones\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{26C0135E-FA6A-4DDB-A5D5-44E667A0272B}|StructureStones\\StructureStones.csproj|c:\\users\\austi\\source\\repos\\structurestones\\structurestones\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{26C0135E-FA6A-4DDB-A5D5-44E667A0272B}|StructureStones\\StructureStones.csproj|solutionrelative:structurestones\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{26C0135E-FA6A-4DDB-A5D5-44E667A0272B}|StructureStones\\StructureStones.csproj|C:\\Users\\austi\\source\\repos\\StructureStones\\structurestones\\properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{26C0135E-FA6A-4DDB-A5D5-44E667A0272B}|StructureStones\\StructureStones.csproj|solutionrelative:structurestones\\properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AssemblyInfo.cs",
+              "DocumentMoniker": "C:\\Users\\austi\\source\\repos\\StructureStones\\StructureStones\\Properties\\AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "StructureStones\\Properties\\AssemblyInfo.cs",
+              "ToolTip": "C:\\Users\\austi\\source\\repos\\StructureStones\\StructureStones\\Properties\\AssemblyInfo.cs",
+              "RelativeToolTip": "StructureStones\\Properties\\AssemblyInfo.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAYAAAA8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-27T10:12:31.841Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cs",
+              "DocumentMoniker": "C:\\Users\\austi\\source\\repos\\StructureStones\\StructureStones\\main.cs",
+              "RelativeDocumentMoniker": "StructureStones\\main.cs",
+              "ToolTip": "C:\\Users\\austi\\source\\repos\\StructureStones\\StructureStones\\main.cs",
+              "RelativeToolTip": "StructureStones\\main.cs",
+              "ViewState": "AQIAAHUAAAAAAAAAAAAwwIgAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-24T20:32:35.971Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

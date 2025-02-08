@@ -6,6 +6,9 @@ using System;
 using UnityEngine;
 using Il2CppRUMBLE.Environment;
 using RumbleModUI;
+using Il2CppRUMBLE.Managers;
+using System.Collections.Generic;
+using Il2CppRUMBLE.Combat.ShiftStones;
 
 namespace StructureStones
 {
@@ -16,6 +19,7 @@ namespace StructureStones
         {
             private static void Postfix(ref Structure __instance)
             {
+                if (!init) { return; }
                 MeshRenderer structureMeshRenderer;
                 try
                 {
@@ -38,6 +42,7 @@ namespace StructureStones
         {
             private static void Postfix(ref Structure __instance)
             {
+                if (!init) { return; }
                 string name = __instance.processableComponent.gameObject.name;
                 MeshRenderer structureMeshRenderer;
                 try
@@ -93,7 +98,7 @@ namespace StructureStones
 
         private bool sceneChanged = false;
         private string currentScene = "";
-        private bool init = false;
+        private static bool init = false;
         public GameObject materialsParent;
         public GameObject[] materialsHolder;
         public static Material[] stoneMaterials = new Material[8];
@@ -128,6 +133,60 @@ namespace StructureStones
         {
             currentScene = sceneName;
             sceneChanged = true;
+            if (currentScene == "Loader")
+            {
+                //Initialization
+                GameObject.DontDestroyOnLoad(materialsParent = new GameObject());
+                materialsParent.name = "StructureStonesMaterialsParent";
+                List<GameObject> HiddenStones = new List<GameObject>();
+                for(int i = 0; i < ShiftstoneLookupTable.instance.availableShiftstones.Count; i++)
+                {
+                    HiddenStones.Add(ShiftstoneLookupTable.instance.availableShiftstones[i].gameObject);
+                }
+                materialsHolder = new GameObject[8];
+                Material[] stones = new Material[8];
+                foreach(GameObject stone in HiddenStones)
+                {
+                    switch(stone.name)
+                    {
+                        case "VolatileStone":
+                            stones[0] = stone.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+                            break;
+                        case "ChargeStone":
+                            stones[1] = stone.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+                            break;
+                        case "SurgeStone":
+                            stones[2] = stone.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+                            break;
+                        case "FlowStone":
+                            stones[3] = stone.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+                            break;
+                        case "GuardStone":
+                            stones[4] = stone.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+                            break;
+                        case "StubbornStone":
+                            stones[5] = stone.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+                            break;
+                        case "AdamantStone":
+                            stones[6] = stone.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+                            break;
+                        case "VigorStone":
+                            stones[7] = stone.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+                            break;
+                    }
+                }
+                for (int i = 0; i < 8; i++)
+                {
+                    materialsHolder[i] = new GameObject();
+                    materialsHolder[i].transform.parent = materialsParent.transform;
+                    stoneMaterials[i] = new Material(stones[i]);
+                    materialsHolder[i].name = stoneMaterials[i].name;
+                    materialsHolder[i].AddComponent<MeshRenderer>();
+                    materialsHolder[i].GetComponent<MeshRenderer>().material = stoneMaterials[i];
+                }
+                init = true;
+                Log("Initialized");
+            }
         }
 
         public override void OnFixedUpdate()
@@ -136,25 +195,6 @@ namespace StructureStones
             {
                 try
                 {
-                    if ((currentScene == "Loader") && (!init))
-                    {
-                        //Initialization
-                        GameObject.DontDestroyOnLoad(materialsParent = new GameObject());
-                        materialsParent.name = "StructureStonesMaterialsParent";
-                        GameObject pools = Calls.Pools.ShiftStones.GetPoolAdamantStone().transform.parent.gameObject;
-                        materialsHolder = new GameObject[8];
-                        for (int i = 0; i < 8; i++)
-                        {
-                            materialsHolder[i] = new GameObject();
-                            materialsHolder[i].transform.parent = materialsParent.transform;
-                            stoneMaterials[i] = new Material(pools.transform.GetChild(i+3).GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material);
-                            materialsHolder[i].name = stoneMaterials[i].name;
-                            materialsHolder[i].AddComponent<MeshRenderer>();
-                            materialsHolder[i].GetComponent<MeshRenderer>().material = stoneMaterials[i];
-                        }
-                        init = true;
-                        Log("Initialized");
-                    }
                     //Stop if not Initialized
                     if (!init)
                     {
@@ -177,14 +217,16 @@ namespace StructureStones
 
         private void Save()
         {
-            for (int i = 1; i < StructureStones.Settings.Count - 1; i++)
+            for (int i = 0; i < StructureStones.Settings.Count - 1; i++)
             {
+                Log(i + " of " + (StructureStones.Settings.Count - 1));
                 if (preSavedValues[i] != (int)StructureStones.Settings[i + 1].SavedValue)
                 {
                     switch (i)
                     {
                         case 0: //disc
                             GameObject discPool = Calls.Pools.Structures.GetPoolDisc();
+                            Log(i + discPool.name);
                             for (int j = 0; j < discPool.transform.childCount; j++)
                             {
                                 if (discPool.transform.GetChild(j).gameObject.active)
@@ -193,6 +235,7 @@ namespace StructureStones
                             break;
                         case 1: //pillar
                             GameObject pillarPool = Calls.Pools.Structures.GetPoolPillar();
+                            Log(i + pillarPool.name);
                             for (int j = 0; j < pillarPool.transform.childCount; j++)
                             {
                                 if (pillarPool.transform.GetChild(j).gameObject.active)
@@ -201,6 +244,7 @@ namespace StructureStones
                             break;
                         case 2: //ball
                             GameObject ballPool = Calls.Pools.Structures.GetPoolBall();
+                            Log(i + ballPool.name);
                             for (int j = 0; j < ballPool.transform.childCount; j++)
                             {
                                 if (ballPool.transform.GetChild(j).gameObject.active)
@@ -209,6 +253,7 @@ namespace StructureStones
                             break;
                         case 3: //cube
                             GameObject cubePool = Calls.Pools.Structures.GetPoolCube();
+                            Log(i + cubePool.name);
                             for (int j = 0; j < cubePool.transform.childCount; j++)
                             {
                                 if (cubePool.transform.GetChild(j).gameObject.active)
@@ -217,6 +262,7 @@ namespace StructureStones
                             break;
                         case 4: //wall
                             GameObject wallPool = Calls.Pools.Structures.GetPoolWall();
+                            Log(i + wallPool.name);
                             for (int j = 0; j < wallPool.transform.childCount; j++)
                             {
                                 if (wallPool.transform.GetChild(j).gameObject.active)
@@ -225,6 +271,7 @@ namespace StructureStones
                             break;
                         case 5: //small rock
                             GameObject smallRockPool = Calls.Pools.Structures.GetPoolSmallRock();
+                            Log(i + smallRockPool.name);
                             for (int j = 0; j < smallRockPool.transform.childCount; j++)
                             {
                                 if (smallRockPool.transform.GetChild(j).gameObject.active)
@@ -233,6 +280,7 @@ namespace StructureStones
                             break;
                         case 6: //large rock
                             GameObject largeRockPool = Calls.Pools.Structures.GetPoolLargeRock();
+                            Log(i + largeRockPool.name);
                             for (int j = 0; j < largeRockPool.transform.childCount; j++)
                             {
                                 if (largeRockPool.transform.GetChild(j).gameObject.active)
@@ -241,6 +289,7 @@ namespace StructureStones
                             break;
                         case 7: //boulderball
                             GameObject boulderBallPool = Calls.Pools.Structures.GetPoolBoulderBall();
+                            Log(i + boulderBallPool.name);
                             for (int j = 0; j < boulderBallPool.transform.childCount; j++)
                             {
                                 if (boulderBallPool.transform.GetChild(j).gameObject.active)
